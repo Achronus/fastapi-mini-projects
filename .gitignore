@@ -40,3 +40,6 @@ venv/
 # testing
 /coverage
 *__.pytest_cache__
+
+# TailwindCSS
+tailwindcss.exe

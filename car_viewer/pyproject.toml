@@ -1,18 +1,19 @@
 [build-system]
-requires = [ "poetry-core",]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "app"
 version = "0.1.0"
 description = "A backend for processing API data."
-authors = [ "Placeholder Name <placeholder@email.com>",]
+authors = ["Placeholder Name <placeholder@email.com>"]
 readme = "README.md"
 
 [tool.poetry.scripts]
 run-dev = "scripts.run:development"
 run-prod = "scripts.run:production"
 db-migrate = "scripts.db_migrate:main"
+tw = "scripts.tailwind:main"
 
 [tool.poetry.dependencies]
 python = "^3.12"
