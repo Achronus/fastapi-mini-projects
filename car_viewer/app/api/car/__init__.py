@@ -61,6 +61,33 @@ def create_car(cars: list[Car], min_id: Annotated[int | None, Body()] = 0):
     )
 
 
-@router.patch("/{id}", response_model=SuccessMsgResponse)
+@router.put("/{id}", response_model=CarResponse)
 def update_car(id: int, car: Car):
-    pass
+    stored = CARS_DATA.get(id)
+
+    if not stored:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Car not found."
+        )
+
+    stored = Car(**stored)
+    new_car = car.model_dump(exclude_unset=True)
+    new_car = stored.model_copy(update=new_car)
+    CARS_DATA[id] = new_car.model_dump()
+
+    return CarResponse(code=status.HTTP_200_OK, data=Car(**CARS_DATA[id]))
+
+
+@router.delete("/{id}", response_model=SuccessMsgResponse)
+def delete_car(id: int):
+    if not CARS_DATA.get(id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Car not found."
+        )
+
+    if id in CARS_DATA:
+        CARS_DATA.pop(id)
+
+    return SuccessMsgResponse(
+        code=status.HTTP_201_CREATED, message="Car deleted successfully."
+    )

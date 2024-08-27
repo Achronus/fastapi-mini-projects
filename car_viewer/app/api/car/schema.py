@@ -24,3 +24,13 @@ class Car(BaseModel):
     sold: list[CountryCodes]
 
     model_config = ConfigDict(use_enum_values=True)
+
+
+class CarUpdate(BaseModel):
+    make: str = Field(None, description="Car make.")
+    model: str = Field(None, description="Car model.")
+    year: int = Field(None, ge=1970, description="Year the car was made.")
+    price: float = Field(None, description="Car price.")
+    engine: str = Field("V4", description="Car engine.")
+    autonomous: bool = Field(None, description="Car autonomous.")
+    sold: list[CountryCodes] = Field(None, description="Car sold countries.")
