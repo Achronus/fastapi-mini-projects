@@ -14,6 +14,5 @@ def home(request: Request):
         "index.html",
         {
             "request": request,
-            "title": "Homepage | Car Viewer",
         },
     )
