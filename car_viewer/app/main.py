@@ -21,8 +21,8 @@ app = FastAPI(docs_url="/api/docs", redoc_url=None, lifespan=lifespan)
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-app.include_router(templates.router, prefix="")
-app.include_router(car.router, prefix="/api")
+app.include_router(templates.router)
+app.include_router(car.router)
 app.include_router(auth.router, prefix="/api")
 
 app.add_middleware(

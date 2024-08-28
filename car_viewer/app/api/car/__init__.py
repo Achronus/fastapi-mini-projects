@@ -1,9 +1,11 @@
 from typing import Annotated
 from app.api.car.schema import Car
-from fastapi import APIRouter, Body, HTTPException, Query, status
+from fastapi import APIRouter, Body, HTTPException, Query, status, Request
+from fastapi.responses import HTMLResponse
 
 from app.data.cars import CARS_DATA
-from app.api.car.response import CarListResponse, CarResponse
+from app.templates import templates
+from app.api.car.response import CarResponse
 
 from zentra_api.responses import SuccessMsgResponse
 
@@ -11,19 +13,26 @@ from zentra_api.responses import SuccessMsgResponse
 router = APIRouter(prefix="/cars", tags=["Cars"])
 
 
-@router.get("", response_model=CarListResponse)
+@router.get("", response_class=HTMLResponse)
 def get_cars(
+    request: Request,
     limit: Annotated[
         str | None,
         Query(max_length=3, description="Maximum number of items to retrieve."),
     ] = "10",
 ):
-    response = []
+    cars = []
 
     for id, car in list(CARS_DATA.items())[: int(limit)]:
-        response.append(Car(**car))
+        cars.append(Car(**car))
 
-    return CarListResponse(code=status.HTTP_200_OK, data=response)
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "cars": cars,
+        },
+    )
 
 
 @router.get("/{id}", response_model=CarResponse)
