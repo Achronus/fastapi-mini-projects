@@ -1,0 +1,28 @@
+[build-system]
+requires = [ "poetry-core",]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = "A backend for processing API data."
+authors = [ "Placeholder Name <placeholder@email.com>",]
+readme = "README.md"
+
+[tool.poetry.scripts]
+run-dev = "scripts.run:development"
+run-prod = "scripts.run:production"
+db-migrate = "scripts.db_migrate:main"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.112"
+sqlalchemy = "^2.0"
+alembic = "^1.13"
+pydantic-settings = "^2.4"
+pyjwt = "^2.9"
+bcrypt = "^4.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3"
+pytest-cov = "^5.0"
