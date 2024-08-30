@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 from app import auth
 from app.core.config import SETTINGS
+from app.api import posts
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,7 +18,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(docs_url="/api/docs", redoc_url=None, lifespan=lifespan)
 
-
+app.include_router(posts.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
 
 app.add_middleware(
